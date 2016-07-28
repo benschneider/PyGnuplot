@@ -8,8 +8,9 @@ Example: gp('plot sin(x)')
 
 gpsave saves arrays into a file for gnuplot
 Example:
-    gpsave([X,Y,Z], filename='something.dat')
+    gsave([X,Y,Z], filename='something.dat')
     gp('plot "something.dat" u 1:($2/$3) w lp')
+    gprint('myfigure.ps')
 
 '''
 
@@ -26,7 +27,7 @@ def gp(command):
     proc.stdin.write(command+'\n')  # \n to send 'return after typed command'
 
 
-def gpsave(data, filename='tmp.dat'):
+def gsave(data, filename='tmp.dat'):
     '''
     gpsave(data, filename='tmp.dat')
     Example:
@@ -34,9 +35,21 @@ def gpsave(data, filename='tmp.dat'):
     X = np.arange(10)
     Y = np.sin(X/(2*np.pi))
     Z = Y**2.0
-    gpsave([X,Y,Z])
+    gsave([X,Y,Z])
     gp('plot "tmp.dat" u 1:2 w lp)
     gp('replot "tmp.dat" u 1:3' w lp)
     '''
     data = numpy.transpose(data)
     numpy.savetxt(filename, numpy.array(data), delimiter=', ')
+
+
+def gprint(filename='tmp.ps', width=7, height=5, fontsize=12, term='x11'):
+    '''Script to make gnuplot print into a postscript file
+    gprint(filename='tmp.ps', width=7, height=5, fontsize=12, term='x11')
+    (wxgnuplot: gprint(..., term='wxt')
+    '''
+    gp("set term postscipt size " +
+       str(width) + "cm, " +
+       str(height) + "cm color solid " +
+       str(fontsize) + " font 'Calibri';")
+    gp('set out ' + filename + '; replot; set term '+str(term)+'; replot')
