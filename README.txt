@@ -1,6 +1,19 @@
 Author: Ben Schneider
 
-A Simple python wrapper for Gnuplot
+Requires:
+Gnuplot
+
+Python modules:
+numpy, subprocess
+
+Installation:
+Mac/Unix
+./install
+Windows
+install.bat
+
+
+Python wrapper for Gnuplot
 
 Example:
     import PyGnuplot as gp
@@ -14,7 +27,7 @@ Example:
     gp.p('myfigure.ps')  # creates postscript file
 
 
-3 function:
+Functions:
 
 c(command)
 	pipe a command to gnuplot
