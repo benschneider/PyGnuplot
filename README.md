@@ -2,18 +2,18 @@
 
 Author: Ben Schneider
 
-##Requires:
+###Requires:
 Gnuplot
 Python modules: numpy, subprocess
 
-##Installation:
+###Installation:
 Mac/Unix
 ./install
 Windows
 install.bat
 
 
-##Example 1:
+###Example 1:
     import PyGnuplot as gp
     import numpy as np
     X = np.arange(10)
@@ -25,10 +25,9 @@ install.bat
     gp.p('myfigure.ps')  # creates postscript file
 
 
-##Example 2:
+###Example 2:
 example.py 
 
-creates this:
 ![example](https://cloud.githubusercontent.com/assets/4573907/17227765/2bfa344e-5510-11e6-908b-38c490ad597f.png)
 
 
