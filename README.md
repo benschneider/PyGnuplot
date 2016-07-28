@@ -8,13 +8,13 @@ Python modules: numpy, subprocess
 
 ###Installation:
 Mac/Unix
-	./install
+		./install
 
 Windows
-	install.bat
+		install.bat
 
-or:
-	python setup.py install
+or
+		python setup.py install
 
 ###Example 1:
     import PyGnuplot as gp
