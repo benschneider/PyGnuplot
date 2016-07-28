@@ -1,6 +1,6 @@
 from distutils.core import setup
 setup(name='PyGnuplot',
-      packages=['PyGnuplot'],
+      # packages=['PyGnuplot'],
       py_modules=['PyGnuplot'],
       version='0.1',
       description='Ultra light Python Gnuplot wrapper',
