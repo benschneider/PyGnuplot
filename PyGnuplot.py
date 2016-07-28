@@ -39,13 +39,25 @@ def s(data, filename='tmp.dat'):
     _savetxt(filename, _array(data), delimiter=', ')
 
 
-def p(filename='tmp.ps', width=7, height=5, fontsize=12, term='x11'):
+def p(filename='tmp.ps', width=14, height=9, fontsize=12, term='x11'):
     '''Script to make gnuplot print into a postscript file
     p(filename='myfigure.ps')
     (overwrites existing files)
     '''
     c('set term postscript size ' + str(width) + 'cm, ' + str(height) + 'cm color solid ' +
       str(fontsize) + " font 'Calibri';")
+    c('set out "' + filename + '";')
+    c('replot;')
+    c('set term '+str(term)+'; replot')
+
+
+def pdf(filename='tmp.pdf', width=14, height=9, fontsize=12, term='x11'):
+    '''Script to make gnuplot print into a pdf file
+    pdf(filename='myfigure.pdf')
+    (overwrites existing files)
+    '''
+    c('set term pdf enhanced size ' + str(width) + 'cm, ' + str(height) + 'cm color solid fsize ' +
+      str(fontsize) + " fname 'Helvetica';")
     c('set out "' + filename + '";')
     c('replot;')
     c('set term '+str(term)+'; replot')
