@@ -16,6 +16,12 @@ Installation:
 
         pip install PyGnuplot
 
+* Upgrade:
+
+.. code::
+
+        pip install --upgrade  PyGnuplot
+
 Functions:
 ..........
 
@@ -79,7 +85,7 @@ Examples:
 
 * 2 Example file
 
-.. code:: python
+.. code::
         
         python example.py 
 
