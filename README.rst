@@ -10,7 +10,6 @@ Gnuplot
 numpy 
 
 Functions:
-:w
 ..........
 
 - c(command)
