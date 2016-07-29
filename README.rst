@@ -12,7 +12,7 @@ numpy
 Functions:
 ..........
 
-- c(command)
+**c(command)**
 
   pipe a command to gnuplot as if in gnuplot command promt
 
