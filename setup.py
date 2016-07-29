@@ -1,7 +1,7 @@
 from distutils.core import setup
 setup(name='PyGnuplot',
       py_modules=['PyGnuplot'],
-      version='0.7',
+      version='0.8',
       license='MIT',
       description='Ultra light Python Gnuplot wrapper',
       author='Ben Schneider',
