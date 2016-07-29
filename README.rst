@@ -7,9 +7,10 @@ Requires:
 .........
 Gnuplot
 
-Python modules: numpy, subprocess
+numpy 
 
 Functions:
+:w
 ..........
 
 - c(command)
