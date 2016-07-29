@@ -9,6 +9,13 @@ Gnuplot
 
 numpy 
 
+Installation:
+.............
+.. code:: 
+        
+
+        pip install PyGnuplot
+
 Functions:
 ..........
 
