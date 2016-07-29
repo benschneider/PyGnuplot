@@ -46,6 +46,13 @@ Functions:
 
 	c('plot "tmp.dat" u 1:2')
 
+**figure(number=None, term='x11')**
+  
+  Create a new or update a figure
+
+.. code:: python
+        
+        figure(1)
 
 **p(filename='tmp.ps', width=14, height=9, fontsize=12, term='x11')**
 
