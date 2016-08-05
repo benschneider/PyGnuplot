@@ -52,7 +52,6 @@ def figure(number=None, term='x11'):
     >>> figure()  # simply creates a new figure
     returns the new figure number
     '''
-    _vc.figNum.sort()
     if not isinstance(number, int):
         number = _vc.figNum[-1]+1
 
@@ -60,7 +59,13 @@ def figure(number=None, term='x11'):
         _vc.figNum.append(number)
 
     c('set term '+str(term)+' '+str(number))
-    return _vc.figNum[-1]
+    _vc.figNum.sort()
+    return number
+
+
+def plot(data):
+    s(data)
+    c('plot "tmp.dat" w lp')
 
 
 def p(filename='tmp.ps', width=14, height=9, fontsize=12, term='x11'):
