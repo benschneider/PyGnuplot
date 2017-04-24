@@ -63,9 +63,10 @@ def figure(number=None, term='x11'):
     return number
 
 
-def plot(data):
-    s(data)
-    c('plot "tmp.dat" w lp')
+def plot(data, filename='tmp.dat'):
+    ''' Save data into filename (default = 'tmp.dat') and send plot instructions to Gnuplot'''
+    s(data, filename)
+    c('plot "' + filename + '" w lp')
 
 
 def p(filename='tmp.ps', width=14, height=9, fontsize=12, term='x11'):

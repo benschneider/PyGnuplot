@@ -46,14 +46,14 @@ Functions:
 
 	c('plot "tmp.dat" u 1:2')
 
-**plot(data)**
+**plot(data, filename='tmp.dat')**
   
   Plot some data.
-  Saves data into tmp.dat and then sends plot instructions to Gnuplot
+  Saves data into filename (default = 'tmp.dat') and then sends plot instructions to Gnuplot
 
 .. code:: python
 
-        plot(x,y)
+        plot([x,y])
 
 **figure(number=None, term='x11')**
   
