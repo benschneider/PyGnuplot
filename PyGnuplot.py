@@ -2,6 +2,7 @@
 By Ben Schneider
 
 Simple python wrapper for Gnuplot
+Thanks to steview2000 for suggesting to separate processes
 
 Example:
     import PyGnuplot as gp
@@ -15,22 +16,41 @@ Example:
     gp.p('myfigure.ps')  # creates postscript file
 
 
-Thanks to steview2000 for suggestion on figure handling
 '''
 
 from subprocess import Popen as _Popen, PIPE as _PIPE
 from numpy import array as _array, transpose as _transpose, savetxt as _savetxt
 
+default_term = 'x11'  # change this if you use a different terminal
 
-class _emptyClass(object):
+
+class _FigureList(object):
+
     def __init__(self):
-        self.figNum = [1]  # generally start with 1 Figure
-        self.figNum[0] = 1
-        self.proc = [1]  # A Process per Figure
-        self.proc[0] = _Popen(['gnuplot', '-p'], shell=False, stdin=_PIPE)
+        proc = _Popen(['gnuplot', '-p'], shell=False, stdin=_PIPE)  # persitant -p
+        self.instance = {0 : [proc, default_term]}  # {figure number : [process, terminal type]}
+        self.n = 0                          # currently selected Figure
+        # Format:
+        # instance[self.n][0] = process
+        # instance[self.n][1] = terminal
 
-_vc = _emptyClass()
-_proc = _vc.proc[0]
+
+def figure(number=None, term=default_term):
+    '''Make Gnuplot plot in a new Window or update a defined one figure(num=None, term='x11'):
+    >>> figure(2)  # would create or update figure 2
+    >>> figure()  # simply creates a new figure
+    returns the new figure number
+    '''
+    if not isinstance(number, int):  # create new figure if no number was given
+        number = max(fl.inst) + 1
+
+    if number not in fl.instance:  # number is new
+        proc = _Popen(['gnuplot', '-p'], shell=False, stdin=_PIPE)  # persitant -p
+        fl.instance[number] = [proc, term]
+
+    fl.n = number
+    c('set term ' + str(fl.instance[fl.n][1]) + ' ' + str(fl.n))
+    return number
 
 
 def c(command):
@@ -39,7 +59,9 @@ def c(command):
     >>> c('plot sin(x)')
     >>> c('plot "tmp.dat" u 1:2 w lp)
     '''
-    _proc.stdin.write(command+'\n')  # \n to send 'return after typed command'
+    proc = fl.instance[fl.n][0]  # this is where the process is
+    proc.stdin.write(command + '\n')  # \n 'send return'
+
 
 def s(data, filename='tmp.dat'):
     '''
@@ -50,31 +72,13 @@ def s(data, filename='tmp.dat'):
     _savetxt(filename, _array(data), delimiter=', ')
 
 
-def figure(number=None, term='x11'):
-    '''Make Gnuplot plot in a new Window or update a defined one
-    figure(num=None, term='x11'):
-    >>> figure(2)  # would create or update figure 2
-    >>> figure()  # simply creates a new figure
-    returns the new figure number
-    '''
-    if not isinstance(number, int):
-        number = _vc.figNum[-1]+1
-
-    if number not in _vc.figNum:
-        _vc.figNum.append(number)
-
-    c('set term '+str(term)+' '+str(number))
-    _vc.figNum.sort()
-    return number
-
-
 def plot(data, filename='tmp.dat'):
     ''' Save data into filename (default = 'tmp.dat') and send plot instructions to Gnuplot'''
     s(data, filename)
     c('plot "' + filename + '" w lp')
 
 
-def p(filename='tmp.ps', width=14, height=9, fontsize=12, term='x11'):
+def p(filename='tmp.ps', width=14, height=9, fontsize=12, term=default_term):
     '''Script to make gnuplot print into a postscript file
     >>> p(filename='myfigure.ps')  # overwrites/creates myfigure.ps
     '''
@@ -82,10 +86,10 @@ def p(filename='tmp.ps', width=14, height=9, fontsize=12, term='x11'):
       str(fontsize) + " font 'Calibri';")
     c('set out "' + filename + '";')
     c('replot;')
-    c('set term '+str(term)+'; replot')
+    c('set term ' + str(term) + '; replot')
 
 
-def pdf(filename='tmp.pdf', width=14, height=9, fontsize=12, term='x11'):
+def pdf(filename='tmp.pdf', width=14, height=9, fontsize=12, term=default_term):
     '''Script to make gnuplot print into a pdf file
     >>> pdf(filename='myfigure.pdf')  # overwrites/creates myfigure.pdf
     '''
@@ -93,4 +97,7 @@ def pdf(filename='tmp.pdf', width=14, height=9, fontsize=12, term='x11'):
       str(fontsize) + " fname 'Helvetica';")
     c('set out "' + filename + '";')
     c('replot;')
-    c('set term '+str(term)+'; replot')
+    c('set term ' + str(term) + '; replot')
+
+
+fl = _FigureList()
