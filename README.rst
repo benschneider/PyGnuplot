@@ -81,6 +81,17 @@ Functions:
 	pdf('myfile.pdf')  # creates 'myfile.pdf'
 
 
+Setup terminal
+..............
+
+   Default terminal is 'x11' unless defined otherwise:
+
+.. code:: python
+
+    import PyGnuplot as gp
+    gp.default_term = 'wxt'  # set wxt as default terminal (i.e. on Windows)
+
+
 Examples:
 .........
 
