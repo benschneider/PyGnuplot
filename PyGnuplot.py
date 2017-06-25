@@ -14,17 +14,23 @@ Example:
     gp.c('replot "tmp.dat" u 1:3' w lp)
     gp.p('myfigure.ps')  # creates postscript file
 
+
+Thanks to steview2000 for suggestion on figure handling
 '''
+
 from subprocess import Popen as _Popen, PIPE as _PIPE
 from numpy import array as _array, transpose as _transpose, savetxt as _savetxt
-proc = _Popen(['gnuplot', '-p'], shell=False, stdin=_PIPE)  # persitant -p
 
 
 class _emptyClass(object):
     def __init__(self):
-        self.figNum = [0]
+        self.figNum = [1]  # generally start with 1 Figure
+        self.figNum[0] = 1
+        self.proc = [1]  # A Process per Figure
+        self.proc[0] = _Popen(['gnuplot', '-p'], shell=False, stdin=_PIPE)
 
 _vc = _emptyClass()
+_proc = _vc.proc[0]
 
 
 def c(command):
@@ -33,8 +39,7 @@ def c(command):
     >>> c('plot sin(x)')
     >>> c('plot "tmp.dat" u 1:2 w lp)
     '''
-    proc.stdin.write(command+'\n')  # \n to send 'return after typed command'
-
+    _proc.stdin.write(command+'\n')  # \n to send 'return after typed command'
 
 def s(data, filename='tmp.dat'):
     '''
