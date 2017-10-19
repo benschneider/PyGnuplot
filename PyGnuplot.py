@@ -29,7 +29,7 @@ class _FigureList(object):
     def __init__(self):
         proc = _Popen(['gnuplot', '-p'], shell=False, stdin=_PIPE)  # persitant -p
         self.instance = {0 : [proc, default_term]}  # {figure number : [process, terminal type]}
-        self.n = 0                          # currently selected Figure
+        self.n = 0  # currently selected Figure
         # Format:
         # instance[self.n][0] = process
         # instance[self.n][1] = terminal
@@ -60,7 +60,7 @@ def c(command):
     >>> c('plot "tmp.dat" u 1:2 w lp)
     '''
     proc = fl.instance[fl.n][0]  # this is where the process is
-    proc.stdin.write(command + '\n')  # \n 'send return'
+    proc.stdin.write(bytearray(command + '\n', 'utf-8'))  # \n 'send return'
 
 
 def s(data, filename='tmp.dat'):
