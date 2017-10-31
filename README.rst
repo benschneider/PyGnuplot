@@ -1,3 +1,6 @@
+.. image:: https://badge.fury.io/py/PyGnuplot@2x.png
+    :target: https://badge.fury.io/py/PyGnuplot
+
 PyGnuplot: Python wrapper for Gnuplot
 -------------------------------------
 
