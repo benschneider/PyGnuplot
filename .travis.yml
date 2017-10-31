@@ -24,7 +24,7 @@ install:
 # command to run tests
 script:
   - python example.py
-  - python setup.py nosetests --cover-package pypiview
+    - python setup.py nosetests --cover-package pypiview  # --with-coverage
 
     after_sucess:
     coveralls
