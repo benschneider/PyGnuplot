@@ -13,5 +13,5 @@ setup(name='PyGnuplot',
       classifiers=["Topic :: Scientific/Engineering",
                    "License :: OSI Approved :: MIT License",
                    "Programming Language :: Python :: 2.7",
-                   "Development Status :: 3 - Alpha"],
+                   "Development Status :: 3 - Beta"],
       )

@@ -60,7 +60,8 @@ def c(command):
     >>> c('plot "tmp.dat" u 1:2 w lp)
     '''
     proc = fl.instance[fl.n][0]  # this is where the process is
-    proc.stdin.write(bytearray(command + '\n', 'utf-8'))  # \n 'send return'
+    proc.stdin.write(bytearray(command + '\n', 'utf-8'))  # \n 'send return in python 2.7'
+    proc.stdin.flush()  # actually send the command (not needed in python 2.7)
 
 
 def s(data, filename='tmp.dat'):
