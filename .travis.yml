@@ -11,8 +11,9 @@ python:
   - "pypy3" # Pypy3 2.4.0
   - "pypy-5.3.1"
 # command to install dependencies
+ # sudo apt-get install gnuplot-x11  # prob default 
   - pip install numpy
 install:
   - pip install .
 # command to run tests
-script: pytest
+script: python example.py
