@@ -2,7 +2,8 @@
 By Ben Schneider
 
 Simple python wrapper for Gnuplot
-Thanks to steview2000 for suggesting to separate processes
+Thanks to steview2000 for suggesting to separate processes,
+    jrbrearley for help with debugging in python 3.4+
 
 Example:
     import PyGnuplot as gp
@@ -61,7 +62,7 @@ def c(command):
     '''
     proc = fl.instance[fl.n][0]  # this is where the process is
     proc.stdin.write(bytearray(command + '\n', 'utf-8'))  # \n 'send return in python 2.7'
-    proc.stdin.flush()  # actually send the command (not needed in python 2.7)
+    proc.stdin.flush()  # send the command in python 3.4+
 
 
 def s(data, filename='tmp.dat'):
