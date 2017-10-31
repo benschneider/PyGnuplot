@@ -19,10 +19,11 @@ install:
   - pip install numpy
   - pip install nose coverage
   - pip install coveralls
+  - pip install pypiview
 # command to run tests
 script:
-  - python setup.py nosetests --with-coverage --cover-package pypiview
   - python example.py
+  - python setup.py nosetests --with-coverage --cover-package pypiview
 
 after_sucess:
   coveralls
