@@ -11,14 +11,14 @@ numpy
 
 Installation:
 .............
-.. code:: 
+.. code:: none
         
 
         pip install PyGnuplot
 
 * Upgrade:
 
-.. code::
+.. code:: none
 
         pip install --upgrade  PyGnuplot
 
@@ -112,7 +112,7 @@ Examples:
 
 * 2 Example file
 
-.. code::
+.. code:: none
         
         python example.py 
 
