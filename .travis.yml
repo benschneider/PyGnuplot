@@ -13,7 +13,7 @@ python:
 before_install:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
-  - "sudo apt-get install gnuplot-x11"
+    # - "sudo apt-get install gnuplot-x11"
 install:
   - pip install .
   - pip install numpy
@@ -22,7 +22,7 @@ install:
   - pip install pypiview
 # command to run tests
 script:
-  - python example.py
+  # - python example.py
   - python setup.py nosetests --with-coverage --cover-package pypiview
 
 after_sucess:
