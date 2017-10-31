@@ -1,3 +1,4 @@
+sudo: false
 language: python
 python:
   - "2.6"
@@ -10,7 +11,10 @@ python:
   - "pypy3" # Pypy3 2.4.0
   - "pypy-5.3.1"
 # command to install dependencies
+  - pip install numpy
+  - pip install tox-travis
 install:
   - pip install .
 # command to run tests
-script: pytest
+# script: pytest
+script: tox

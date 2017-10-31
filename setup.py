@@ -1,7 +1,11 @@
-from distutils.core import setup
+try:
+    from setuptools import setup
+except ImportError:
+    from distutils.core import setup
+
 setup(name='PyGnuplot',
       py_modules=['PyGnuplot'],
-      version='0.11.0',
+      version='0.11.4',
       license='MIT',
       description='Python Gnuplot wrapper',
       author='Ben Schneider',
