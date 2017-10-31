@@ -1,5 +1,8 @@
 *.swp
 *.pyc
+*.out
+*.pdf
 .ropeproject
 build/
 dist/
+PyGnuplot.egg-info/
