@@ -1,5 +1,9 @@
-.. image:: https://badge.fury.io/py/PyGnuplot@2x.png
+.. image:: https://badge.fury.io/py/PyGnuplot@2x.svg
     :target: https://badge.fury.io/py/PyGnuplot
+
+.. image:: https://img.shields.io/badge/License-MIT-yellow.svg
+    :target: https://opensource.org/licenses/MIT
+
 
 PyGnuplot: Python wrapper for Gnuplot
 -------------------------------------
