@@ -25,5 +25,5 @@ script:
   # - python example.py
   - python setup.py nosetests --with-coverage --cover-package pypiview
 
-after_sucess:
-  coveralls
+    #after_sucess:
+    #coveralls
