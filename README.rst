@@ -5,7 +5,7 @@
     :target: https://travis-ci.org/benschneider/PyGnuplot
 
 .. image:: https://img.shields.io/badge/License-MIT-yellow.svg
-    :target: https://opensource.org/licenses/MIT
+    :target: https://github.com/benschneider/PyGnuplot/blob/master/LICENSE
 
 
 PyGnuplot: Python wrapper for Gnuplot
