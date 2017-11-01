@@ -1,6 +1,9 @@
 .. image:: https://badge.fury.io/py/PyGnuplot@2x.svg
     :target: https://badge.fury.io/py/PyGnuplot
 
+.. image:: https://travis-ci.org/benschneider/PyGnuplot.svg?branch=master
+    :target: https://travis-ci.org/benschneider/PyGnuplot
+
 .. image:: https://img.shields.io/badge/License-MIT-yellow.svg
     :target: https://opensource.org/licenses/MIT
 
