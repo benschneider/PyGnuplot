@@ -21,14 +21,13 @@ numpy
 
 Installation:
 .............
-.. code:: none
+.. code::
         
-
         pip install PyGnuplot
 
-* Upgrade:
-
-.. code:: none
+Upgrade:
+........
+.. code::
 
         pip install --upgrade  PyGnuplot
 
@@ -45,11 +44,11 @@ Functions:
 
 **s(data, filename='tmp.dat')**
 
-  save arrays into file (default = 'tmp.dat') easily read by Gnuplot
+  save arrays into file (filename = 'tmp.dat') easily read by Gnuplot
 
 .. code:: python
 
-	s([X,Y,Z])
+	s([X,Y,Z])  # creates tmp.dat
 
 
 .. code:: python
@@ -122,7 +121,7 @@ Examples:
 
 * 2 Example file
 
-.. code:: none
+.. code::
         
         python example.py 
 
