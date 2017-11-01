@@ -45,11 +45,11 @@ Functions:
 
 **s(data, filename='tmp.dat')**
 
-  save arrays into file easily read by Gnuplot
+  save arrays into file (default = 'tmp.dat') easily read by Gnuplot
 
 .. code:: python
 
-	s([X,Y,Z])  # creates tmp.dat
+	s([X,Y,Z])
 
 
 .. code:: python
@@ -88,18 +88,18 @@ Functions:
 
 .. code:: python
 
-	pdf('myfile.pdf')  # creates 'myfile.pdf'
+	pdf('myfile.pdf')
 
 
 Setup terminal
 ..............
 
-   Default terminal is 'x11' unless defined otherwise:
+   Default terminal is 'x11' unless defined otherwise i.e. for windows:
 
 .. code:: python
 
     import PyGnuplot as gp
-    gp.default_term = 'wxt'  # set wxt as default terminal (i.e. on Windows)
+    gp.default_term = 'wxt'
 
 
 Examples:
