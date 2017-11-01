@@ -3,11 +3,15 @@ try:
 except ImportError:
     from distutils.core import setup
 
+with open('README.rst', 'r') as f:
+    long_description = f.read()
+
 setup(name='PyGnuplot',
       py_modules=['PyGnuplot'],
-      version='0.11.4',
+      version='0.11.5',
       license='MIT',
       description='Python Gnuplot wrapper',
+      long_description=long_description,
       author='Ben Schneider',
       author_email=' ',
       url='https://github.com/benschneider/PyGnuplot',
