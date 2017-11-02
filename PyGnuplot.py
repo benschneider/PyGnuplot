@@ -28,7 +28,7 @@ default_term = 'x11'  # change this if you use a different terminal
 class _FigureList(object):
 
     def __init__(self):
-        proc = _Popen(['gnuplot', '-p'], shell=False, stdin=_PIPE)  # persitant -p
+        proc = _Popen(['gnuplot', '-p'], shell=False, stdin=_PIPE, universal_newlines=True)  # persitant -p
         self.instance = {0 : [proc, default_term]}  # {figure number : [process, terminal type]}
         self.n = 0  # currently selected Figure
         # Format:
@@ -46,7 +46,7 @@ def figure(number=None, term=default_term):
         number = max(fl.instance) + 1
 
     if number not in fl.instance:  # number is new
-        proc = _Popen(['gnuplot', '-p'], shell=False, stdin=_PIPE)  # persitant -p
+        proc = _Popen(['gnuplot', '-p'], shell=False, stdin=_PIPE, universal_newlines=True)  # persitant -p
         fl.instance[number] = [proc, term]
 
     fl.n = number
@@ -61,7 +61,7 @@ def c(command):
     >>> c('plot "tmp.dat" u 1:2 w lp)
     '''
     proc = fl.instance[fl.n][0]  # this is where the process is
-    proc.stdin.write(bytearray(command + '\n', 'utf-8'))  # \n 'send return in python 2.7'
+    proc.stdin.write(command + '\n')  # \n 'send return in python 2.7'
     proc.stdin.flush()  # send the command in python 3.4+
 
 
