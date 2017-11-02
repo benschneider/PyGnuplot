@@ -15,7 +15,7 @@ Author: Ben Schneider
 
 Requires:
 .........
-Gnuplot
+Gnuplot (http://www.gnuplot.info)
 
 numpy 
 
