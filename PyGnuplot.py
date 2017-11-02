@@ -36,7 +36,7 @@ class _FigureList(object):
         # instance[self.n][1] = terminal
 
 
-def figure(number=None, term=default_term):
+def figure(number=None):
     '''Make Gnuplot plot in a new Window or update a defined one figure(num=None, term='x11'):
     >>> figure(2)  # would create or update figure 2
     >>> figure()  # simply creates a new figure
@@ -46,8 +46,8 @@ def figure(number=None, term=default_term):
         number = max(fl.instance) + 1
 
     if number not in fl.instance:  # number is new
-        proc = _Popen(['gnuplot', '-p'], shell=False, stdin=_PIPE, universal_newlines=True)  # persitant -p
-        fl.instance[number] = [proc, term]
+        proc = _Popen(['gnuplot', '-p'], shell=False, stdin=_PIPE, universal_newlines=True)
+        fl.instance[number] = [proc, default_term]
 
     fl.n = number
     c('set term ' + str(fl.instance[fl.n][1]) + ' ' + str(fl.n))
