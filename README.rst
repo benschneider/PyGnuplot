@@ -1,6 +1,9 @@
 .. image:: https://badge.fury.io/py/PyGnuplot@2x.svg
     :target: https://badge.fury.io/py/PyGnuplot
 
+.. image:: https://anaconda.org/benschneider/pygnuplot/badges/version.svg
+    :target: https://anaconda.org/benschneider/pygnuplot
+
 .. image:: https://travis-ci.org/benschneider/PyGnuplot.svg?branch=master
     :target: https://travis-ci.org/benschneider/PyGnuplot
 
@@ -21,10 +24,18 @@ numpy
 
 Installation:
 .............
+
+Using pip
+
 .. code::
         
         pip install PyGnuplot
 
+Using conda
+
+.. code::
+
+        conda install -c benschneider pygnuplot
 Upgrade:
 ........
 .. code::
