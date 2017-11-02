@@ -43,7 +43,7 @@ def figure(number=None, term=default_term):
     returns the new figure number
     '''
     if not isinstance(number, int):  # create new figure if no number was given
-        number = max(fl.inst) + 1
+        number = max(fl.instance) + 1
 
     if number not in fl.instance:  # number is new
         proc = _Popen(['gnuplot', '-p'], shell=False, stdin=_PIPE)  # persitant -p
