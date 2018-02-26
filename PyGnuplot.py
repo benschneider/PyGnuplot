@@ -20,7 +20,6 @@ Example:
 '''
 
 from subprocess import Popen as _Popen, PIPE as _PIPE
-from numpy import array as _array, transpose as _transpose, savetxt as _savetxt
 
 default_term = 'x11'  # change this if you use a different terminal
 
@@ -64,15 +63,23 @@ def c(command):
     proc.stdin.write(command + '\n')  # \n 'send return in python 2.7'
     proc.stdin.flush()  # send the command in python 3.4+
 
-
 def s(data, filename='tmp.dat'):
     '''
-    saves arrays into an ASCII file easily read in gnuplot
+    saves numbers arrays and text into filename (default = 'tmp.dat)
+    (assumes equal sizes and 2D data sets)
     >>> s(data, filename='tmp.dat')  # overwrites/creates tmp.dat
     '''
-    data = _transpose(data)
-    _savetxt(filename, _array(data), delimiter=', ')
-
+    file = open(filename, 'w')
+    columns = len(data)
+    rows = len(data[0])
+    for j in range(rows):
+        for i in range(columns):
+            file.write(str(data[i][j]))
+            file.write(' ')
+        file.write('\n')
+        if j % 1000 == 0 :
+            file.flush()  # write once after every 1000 entries
+    file.close()  # write the rest
 
 def plot(data, filename='tmp.dat'):
     ''' Save data into filename (default = 'tmp.dat') and send plot instructions to Gnuplot'''
