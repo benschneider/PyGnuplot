@@ -36,6 +36,7 @@ Using conda
 .. code::
 
         conda install -c benschneider pygnuplot
+
 Upgrade:
 ........
 .. code::
