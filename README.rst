@@ -20,8 +20,6 @@ Requires:
 .........
 Gnuplot (http://www.gnuplot.info)
 
-numpy 
-
 Installation:
 .............
 
@@ -48,7 +46,7 @@ Functions:
 
 **c(command)**
 
-  pipe a command to gnuplot as if in gnuplot command promt
+pipe a command to gnuplot as if in gnuplot command promt
 
 .. code:: python
 
@@ -56,7 +54,7 @@ Functions:
 
 **s(data, filename='tmp.dat')**
 
-  save arrays into file (filename = 'tmp.dat') easily read by Gnuplot
+save arrays into file (filename = 'tmp.dat') easily read by Gnuplot
 
 .. code:: python
 
@@ -69,8 +67,8 @@ Functions:
 
 **plot(data, filename='tmp.dat')**
   
-  Plot some data.
-  Saves data into filename (default = 'tmp.dat') and then sends plot instructions to Gnuplot
+Plot some data.
+Saves data into filename (default = 'tmp.dat') and then sends plot instructions to Gnuplot
 
 .. code:: python
 
@@ -78,7 +76,7 @@ Functions:
 
 **figure(number=None, term='x11')**
   
-  Create a new or update a figure
+Create a new or update a figure
 
 .. code:: python
         
@@ -86,7 +84,7 @@ Functions:
 
 **p(filename='tmp.ps', width=14, height=9, fontsize=12, term='x11')**
 
-  Create postscript file (overwrites existing)
+Create postscript file (overwrites existing)
 
 .. code:: python
 
@@ -95,7 +93,7 @@ Functions:
 
 **pdf(filename='tmp.pdf', width=14, height=9, fontsize=12, term='x11')**
 
-  Create a pdf file (overwrites existing)
+Create a pdf file (overwrites existing)
 
 .. code:: python
 
@@ -105,7 +103,7 @@ Functions:
 Setup terminal
 ..............
 
-   Default terminal is 'x11' unless defined otherwise i.e. for windows:
+Default terminal is 'x11' unless defined otherwise i.e. for windows:
 
 .. code:: python
 
