@@ -102,4 +102,43 @@ def pdf(filename='tmp.pdf', width=14, height=9, fontsize=12, term=default_term):
     c('set term ' + str(term) + '; replot')
 
 
+def plot2(data,*args): """ Sends data to gnuplot via pipe
+    - from comments by steview2000 """
+    x,y = data
+    lastdata = 1
+    data_string = ''
+    for i in range(np.size(x)):
+        data_string = data_string +('%lf %lf\n'%(x[i],y[i]))
+    data_string = data_string+'e\n'
+    plot_string = 'plot "-"'
+    for i in range(len(args)):
+        arg = args[i]
+        if type(arg) == str:
+            if lastdata == 1:
+                plot_string = plot_string+arg
+                lastdata=0
+            else:
+                print("Error!! Data expected in %d argument!"%i)
+                break
+        elif type(arg)==list:
+            if lastdata==1:
+                plot_string = plot_string+" u 1:2 notitle w p "
+            x,y = arg
+            for i in range(np.size(x)):
+                data_string = data_string +('%lf %lf\n'%(x[i],y[i]))
+            data_string = data_string+'e\n'
+            plot_string = plot_string+', "-"'
+            lastdata=1
+
+        else:
+            print("Wrong data type in argument %d "%i)
+            print("Str or List expected, but "+type(arg)+" found!")
+            break
+
+    if lastdata==1:
+        plot_string = plot_string+" u 1:2 notitle w p "
+    c(plot_string)
+    c(data_string)
+
+
 fl = _FigureList()
