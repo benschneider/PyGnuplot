@@ -27,7 +27,7 @@ default_term = 'x11'  # change this if you use a different terminal
 class _FigureList(object):
 
     def __init__(self):
-        proc = _Popen(['gnuplot', '-p'], shell=False, stdin=_PIPE, universal_newlines=True)  # persitant -p
+        proc = _Popen(['gnuplot', '-p'], shell=False, stdin=_PIPE, stdout=_PIPE, stderr=_PIPE, universal_newlines=True)  # persitant -p
         self.instance = {0 : [proc, default_term]}  # {figure number : [process, terminal type]}
         self.n = 0  # currently selected Figure
         # Format:
@@ -45,12 +45,24 @@ def figure(number=None):
         number = max(fl.instance) + 1
 
     if number not in fl.instance:  # number is new
-        proc = _Popen(['gnuplot', '-p'], shell=False, stdin=_PIPE, universal_newlines=True)
+        proc = _Popen(['gnuplot', '-p'], shell=False, stdin=_PIPE, stdout=_PIPE, stderr=_PIPE, universal_newlines=True)
         fl.instance[number] = [proc, default_term]
 
     fl.n = number
     c('set term ' + str(fl.instance[fl.n][1]) + ' ' + str(fl.n))
     return number
+
+
+def get(command):
+    '''
+    Get a variable from gnuplot
+    pi = gp.get('pi')
+    Returns a string
+    '''
+    proc = fl.instance[fl.n][0]  # this is where the process is
+    proc.stdin.write('print ' + command + '\n')
+    errs, outs = proc.communicate(timeout=15)
+    return outs.strip()
 
 
 def c(command):
@@ -62,6 +74,7 @@ def c(command):
     proc = fl.instance[fl.n][0]  # this is where the process is
     proc.stdin.write(command + '\n')  # \n 'send return in python 2.7'
     proc.stdin.flush()  # send the command in python 3.4+
+
 
 def s(data, filename='tmp.dat'):
     '''
@@ -77,9 +90,10 @@ def s(data, filename='tmp.dat'):
             file.write(str(data[i][j]))
             file.write(' ')
         file.write('\n')
-        if j % 1000 == 0 :
+        if j % 1000 == 0:
             file.flush()  # write once after every 1000 entries
     file.close()  # write the rest
+
 
 def plot(data, filename='tmp.dat'):
     ''' Save data into filename (default = 'tmp.dat') and send plot instructions to Gnuplot'''
