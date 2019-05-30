@@ -55,7 +55,7 @@ class gp(object):
         self.t_out = Thread(target=self.enqueue_std, args=(self.p.stdout, self.q_out))
         self.t_out.daemon = True  # thread dies with the program
         self.t_out.start()
-        self.default_term = self.a('print GPVAL_TERM')[0]
+        self.default_term = str(*self.a('print GPVAL_TERM'))
         # self.w('set print "-"')  # to separate sdtout and stderr
 
     def enqueue_std(self, out, queue):
