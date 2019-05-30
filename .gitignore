@@ -6,4 +6,5 @@ setup.cfg
 .ropeproject
 build/
 dist/
+tests/
 PyGnuplot.egg-info/
