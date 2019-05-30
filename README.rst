@@ -4,7 +4,7 @@
 .. image:: https://anaconda.org/benschneider/pygnuplot/badges/version.svg
     :target: https://anaconda.org/benschneider/pygnuplot
 
-.. image:: https://travis-ci.org/benschneider/PyGnuplot.svg?branch=master
+.. image:: https://travis-ci.org/benschneider/PyGnuplot.svg?branch=experimental
     :target: https://travis-ci.org/benschneider/PyGnuplot
 
 .. image:: https://img.shields.io/badge/License-MIT-yellow.svg
@@ -66,14 +66,41 @@ Functions:
 
 	c('plot "tmp.dat" u 1:2')
 
+**a(command='', vtype=str, timeout=0.05)**
+
+   asks gnuplot: it sends a command to gnuplot and returns its response
+   This is paricularly handy when using gnuplots fitting features
+   vtype can be used to change the return format
+   timeout is the time to wait for a response 
+
+.. code:: python
+
+      a('print pi')  # returns the value of pi
+
+.. code:: python
+
+      a('print pi; print pi')  # returns 2 times the value of pi
+
+**r(vtype=str, timeout=0.05)**
+
+   reads the gnuplot return buffer until its empty
+
+
 **plot(data, filename='tmp.dat')**
   
-  Plot some data.
-  Saves data into filename (default = 'tmp.dat') and then sends plot instructions to Gnuplot
+  Plot some data. 
+  Sends plot instructions and the data to Gnuplot
 
 .. code:: python
 
         plot([x,y])
+
+**plot_b(data, v1='d', v2='%double')**
+
+   Similar to plot:
+   Sends plot instructions and the data to Gnuplot
+   However it sends them in binary format,
+   which can be beneficial when the dealing with larger quanities of numbers
 
 **figure(number=None, term='x11')**
   
@@ -101,15 +128,23 @@ Functions:
 	pdf('myfile.pdf')
 
 
+**quit()**
+
+   Closes windows,then  gnuplot, then the pipe
+
 Setup terminal
 ..............
 
-   Default terminal is 'x11' unless defined otherwise i.e. for windows:
+   This script will use the same default terminal that gnuplot used
+   (it reads the GPVAL_TERM value when gnuplot starts up)
+   it can still be modified by the 'default_term' variable:
+
 
 .. code:: python
 
-    import PyGnuplot as gp
-    gp.default_term = 'wxt'
+    from PyGnuplot import gp
+    fig1 = gp()
+    fig1.default_term = 'wxt'
 
 
 Examples:
@@ -119,15 +154,16 @@ Examples:
 
 .. code:: python
 
-    import PyGnuplot as gp
+    from PyGnuplot import gp
     import numpy as np
     X = np.arange(10)
     Y = np.sin(X/(2*np.pi))
     Z = Y**2.0
-    gp.s([X,Y,Z])
-    gp.c('plot "tmp.dat" u 1:2 w lp)
-    gp.c('replot "tmp.dat" u 1:3' w lp)
-    gp.p('myfigure.ps')
+    fig1 = gp()
+    fig1.s([X,Y,Z])
+    fig1.c('plot "tmp.dat" u 1:2 w lp)
+    fig1.c('replot "tmp.dat" u 1:3' w lp)
+    fig1.p('myfigure.ps')
 
 
 * 2 Example file

@@ -46,7 +46,6 @@ class gp(object):
     def __init__(self):
         ''' open pipe with gnuplot '''
         self.p = Popen(['gnuplot'], stdin=PIPE, stderr=PIPE, stdout=PIPE, bufsize=1, close_fds=ON_POSIX, shell=False, universal_newlines=True)
-        # self.p = Popen(['gnuplot', '-p'], stdin=PIPE, stderr=PIPE, stdout=PIPE, bufsize=1, close_fds=ON_POSIX, shell=False, universal_newlines=True)
         self.q_err = Queue()
         self.t_err = Thread(target=self.enqueue_std, args=(self.p.stderr, self.q_err))
         self.t_err.daemon = True  # thread dies with the program
@@ -56,9 +55,9 @@ class gp(object):
         self.t_out.daemon = True  # thread dies with the program
         self.t_out.start()
         self.default_term = str(*self.a('print GPVAL_TERM'))
-        # self.w('set print "-"')  # to separate sdtout and stderr
 
     def enqueue_std(self, out, queue):
+        ''' used to setup the queues for the return buffers'''
         for line in iter(out.readline, ''):
             queue.put(line)
         out.close()
@@ -68,7 +67,6 @@ class gp(object):
         >>> w('plot sin(x)')  # only send a command to gnuplot'''
         self.p.stdin.write(command + '\n')  # \n 'send return in python 2.7'
         self.p.stdin.flush()  # send the command in python 3.4+
-        # if return available return stuff here
 
     def r(self, vtype=str, timeout=0.05):
         ''' read line without blocking, also clears the buffer.
@@ -124,7 +122,7 @@ class gp(object):
         self.c(str_data+'e')  # add end character to plot string
         return self.a()
 
-    def plot_b(self, data, v1='d', v2="%double"):
+    def plot_b(self, data, v1='d', v2='%double'):
         ''' quick plot data in gnuplot
             tell gnuplot to expect binary
             convert data into binary
