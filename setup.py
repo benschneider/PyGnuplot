@@ -8,7 +8,7 @@ with open('README.rst', 'r') as f:
 
 setup(name='PyGnuplot',
       py_modules=['PyGnuplot'],
-      version='0.12.00e',
+      version='0.12.00',
       license='MIT',
       description='Python Gnuplot wrapper',
       long_description=long_description,
