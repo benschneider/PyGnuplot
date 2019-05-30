@@ -1,5 +1,5 @@
 import numpy as np
-import PyGnuplot as gp
+from PyGnuplot import gp
 
 x = np.arange(1000)/20.0
 y1 = x-25

@@ -137,14 +137,14 @@ class gp(object):
         self.wb(bin_data)
         return self.a()
 
-    def s(self, data, filename='tmp.dat'):
+    def s(self, data, filename='tmp.dat', delimiter=' '):
         '''
         saves numbers arrays and text into filename (default = 'tmp.dat)
         (assumes equal sizes and 2D data sets)
         >>> s(data, filename='tmp.dat')  # overwrites/creates tmp.dat
         '''
         with open(filename, 'w') as f:
-            filestr = self.m_str(data, delimiter='\t', endchar='')
+            filestr = self.m_str(data, delimiter=delimiter)
             f.write(filestr)
             f.close()  # write the rest and close
 
