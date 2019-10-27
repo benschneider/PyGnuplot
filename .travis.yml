@@ -6,14 +6,11 @@ python:
   # PyPy versions
   - "pypy"   # currently Python 2.7.13, PyPy 7.1.1
   - "pypy3"  # currently Python 3.6.1,  PyPy 7.1.1-beta0
-services:
-  - xvfb
+#services:
+  #- xvfb
 before_install:
-  - "sleep 5"
-  - "export DISPLAY=:99.0"
+  #- "export DISPLAY=:99.0"
   - "sudo apt-get install gnuplot-x11"
-  - "sudo apt-get install evince"
-  - "sudo apt-get install at-spi2-core"
 install:
   - pip3 install . || pip install .
   - pip3 install --upgrade pip || pip install --upgrade pip # all three OSes agree about 'pip3'
@@ -23,9 +20,7 @@ install:
   # - pip install coveralls
 script:
   - python example.py
-  - sleep 10
   - python setup.py nosetests --cover-package pypiview  # --with-coverage
-  - ls
-  - evince example.pdf
-    #after_sucess:
+  - ls example.pdf
+ #after_sucess:
     #coveralls
