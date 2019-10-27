@@ -22,8 +22,9 @@ install:
   # - pip install coveralls
 script:
   - python example.py
-  - sleep 30
+  - sleep 10
   - python setup.py nosetests --cover-package pypiview  # --with-coverage
   - ls
+  - evince example.pdf
     #after_sucess:
     #coveralls
