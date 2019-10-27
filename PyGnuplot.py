@@ -111,12 +111,16 @@ class gp(object):
             ascii_st += '\n'
         return ascii_st
 
-    def plot(self, data):
+    def plot(self, data, com='u 1:2 w lp'):
         ''' quick plot data in gnuplot
             it basically pipes the data to gnuplot and plots it
+            default plot line is:
+            "plot "-" u 1:2 w lp"
+            where the last part is set by
+            com='u 1:2 w lp')
         '''
         d1 = len(data[0])
-        self.c('plot "-" u 1:2 w lp')
+        self.c('plot "-" ' + com)
         str_data = self.m_str(data)
         self.c(str_data+'e')  # add end character to plot string
         return self.a()
