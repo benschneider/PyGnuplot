@@ -19,8 +19,9 @@ install:
   # - pip install pypiview
   # - pip install coveralls
 script:
+  - rm example.pdf
   - python example.py
   - python setup.py nosetests --cover-package pypiview  # --with-coverage
-  - ls example.pdf
+  - ls example.pdf  # if it exists it was sucessfull
  #after_sucess:
     #coveralls
