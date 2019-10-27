@@ -21,6 +21,8 @@ install:
 script:
   - python example.py
   - python setup.py nosetests --cover-package pypiview  # --with-coverage
+  - ls
+  - open example.pdf
 
     #after_sucess:
     #coveralls
