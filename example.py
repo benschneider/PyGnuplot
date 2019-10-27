@@ -1,17 +1,20 @@
-# import numpy as np
 from PyGnuplot import gp
+
+f1 = gp()
 
 e = 2.718281828459045
 
 def sin(x):
-    return (e**(x*1j)).imag
+    ''' returns sin for each x '''
+    return (e**(i*1j)).imag
 
 x = list(range(1000))
-x = [i/20 for i in x]
+x = [i/20 for i in x]  # x = x/20
 y1 = [i-25 for i in x]  # y1 = x-25
-y2 = y1*sin(y1)  #  y2 = y1*sin(x-25)
+y2 = []  # calculate y2 = y1*sin(y1)
+for i, j1 in enumerate(y1):
+    y2.append(j1*sin(j1))
 
-f1 = gp()
 f1.s([x, y1, y2], filename='example.out')  # save data into a file t.out
 f1.c('set title "example.pdf"; set xlabel "x-axis"; set ylabel "y-axis"')
 f1.c('set yrange [-25:25]; set key center top')
