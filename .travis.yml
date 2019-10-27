@@ -19,10 +19,10 @@ install:
   # - pip install pypiview
   # - pip install coveralls
 script:
-  - python example.py
-  - python setup.py nosetests --cover-package pypiview  # --with-coverage
-  - ls
-  - open example.pdf
-
+  python example.py
+  python setup.py nosetests --cover-package pypiview  # --with-coverage
+  ls
+  xdg-open example.pdf
+  sleep 3
     #after_sucess:
     #coveralls
