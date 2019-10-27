@@ -17,10 +17,10 @@ before_install:
   - "sudo apt-get install gnuplot-x11"
 install:
   - pip install .
-  - pip install numpy
+  # - pip install numpy
   - pip install nose coverage
   # - pip install coveralls
-  # - pip install pypiview
+  - pip install pypiview
 # command to run tests
 script:
   - python example.py
