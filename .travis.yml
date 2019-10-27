@@ -19,9 +19,10 @@ install:
   # - pip install pypiview
   # - pip install coveralls
 script:
-  - rm example.pdf
   - python example.py
   - python setup.py nosetests --cover-package pypiview  # --with-coverage
-  - ls example.pdf  # if it exists it was sucessfull
+  - echo 'if example.pdf was generated, test is sucessfull'
+  - ls example.pdf 
+  - rm example.pdf  # if file didn't exist, this will fail
  #after_sucess:
     #coveralls
