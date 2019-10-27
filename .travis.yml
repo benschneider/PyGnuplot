@@ -13,6 +13,7 @@ before_install:
   - "export DISPLAY=:99.0"
   - "sudo apt-get install gnuplot-x11"
   - "sudo apt-get install evince"
+  - "sudo apt-get install at-spi2-core"
 install:
   - pip3 install . || pip install .
   - pip3 install --upgrade pip || pip install --upgrade pip # all three OSes agree about 'pip3'
