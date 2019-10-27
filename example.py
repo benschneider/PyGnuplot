@@ -1,9 +1,15 @@
-import numpy as np
+# import numpy as np
 from PyGnuplot import gp
 
-x = np.arange(1000)/20.0
-y1 = x-25
-y2 = y1*np.sin(x-25)
+e = 2.718281828459045
+
+def sin(x):
+    return (e**(x*1j)).imag
+
+x = list(range(1000))
+x = [i/20 for i in x]
+y1 = [i-25 for i in x]  # y1 = x-25
+y2 = y1*sin(y1)  #  y2 = y1*sin(x-25)
 
 f1 = gp()
 f1.s([x, y1, y2], filename='example.out')  # save data into a file t.out

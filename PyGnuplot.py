@@ -22,7 +22,6 @@ Example:
     fig1.c('replot "tmp.dat" u 1:3' w lp)
     fig1.pdf('myfigure.pdf')  # outputs pdf file
 
-
 '''
 
 import sys
