@@ -122,7 +122,7 @@ class gp(object):
         self.c(str_data+'e')  # add end character to plot string
         return self.a()
 
-    def plot_b(self, data, com1='plot', com2='w lp, 'v1='d', v2='%double'):
+    def plot_b(self, data, com1='plot', com2='w lp', v1='d', v2='%double'):
         ''' quick plot data in gnuplot using binary format
             tell gnuplot to expect binary
             convert data into binary
