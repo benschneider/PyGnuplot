@@ -111,29 +111,30 @@ class gp(object):
             ascii_st += '\n'
         return ascii_st
 
-    def plot(self, data, com='u 1:2 w lp'):
+    def plot(self, data, com='plot "-" u 1:2 w lp'):
         ''' quick plot data in gnuplot
             it basically pipes the data to gnuplot and plots it
-            default plot line is:
-            "plot "-" u 1:2 w lp"
-            where the last part is set by
-            com='u 1:2 w lp')
+            default plot :
+            com = "plot "-" u 1:2 w lp"
         '''
-        d1 = len(data[0])
-        self.c('plot "-" ' + com)
+        self.c(com)
         str_data = self.m_str(data)
         self.c(str_data+'e')  # add end character to plot string
         return self.a()
 
-    def plot_b(self, data, v1='d', v2='%double'):
-        ''' quick plot data in gnuplot
+    def plot_b(self, data, com1='plot', com2='w lp, 'v1='d', v2='%double'):
+        ''' quick plot data in gnuplot using binary format
             tell gnuplot to expect binary
             convert data into binary
             send data
             Note this is currently limited to simple 2d graph
+            changable here:
+            com1 = 'plot'
+            com2 = 'w lp'
         '''
         d1 = len(data[0])
-        self.c('plot "-" binary record='+str(d1)+' format="'+str(v2)+'" w lp')
+        # self.c('plot "-" binary record='+str(d1)+' format="'+str(v2)+'" w lp')
+        self.c(com1 + ' "-" binary record='+str(d1)+' format="'+str(v2)+'" '+com2)
         bin_data = self.m_binary(data, v_format=v1)
         self.wb(bin_data)
         return self.a()
