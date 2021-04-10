@@ -1,3 +1,4 @@
+
 '''
 By Ben Schneider
 
@@ -7,11 +8,11 @@ Thanks to steview2000 for suggesting to separate processes,
 
 Special Thanks to ddip!
     This code was rewritten according to ddipp's suggestions resulting in
-    a cleaner and better code and finnaly giving accesss to gnuplot returns thus
-    allowing the use of the gnuplot fit function.
+    a cleaner and better code and finnaly giving accesss to gnuplot returns
+    thus allowing the use of the gnuplot fit function.
 
 Example:
-    from PyGnuplot import gp
+    from PyGnuplot import figure
     import numpy as np
     X = np.arange(10)
     Y = np.sin(X/(2*np.pi))
@@ -27,7 +28,7 @@ Example:
 import sys
 from subprocess import PIPE, Popen
 from threading import Thread
-from struct import pack
+from time import sleep
 
 try:
     from queue import Queue, Empty
@@ -36,23 +37,29 @@ except ImportError:
 
 ON_POSIX = 'posix' in sys.builtin_module_names
 
-class gp(object):
-    """PyGnuplot object gp
+
+class figure(object):
+    """PyGnuplot object figure
     example:
-        fig1 = gp()
-        pi = fig1.a('print pi')
+        f1 = figure()
+        pi = f1.a('print pi')
     """
     def __init__(self):
         ''' open pipe with gnuplot '''
-        self.p = Popen(['gnuplot'], stdin=PIPE, stderr=PIPE, stdout=PIPE, bufsize=1, close_fds=ON_POSIX, shell=False, universal_newlines=True)
+        self.p = Popen(['gnuplot'], stdin=PIPE, stderr=PIPE, stdout=PIPE,
+                       bufsize=1, close_fds=ON_POSIX,
+                       shell=False, universal_newlines=True)
         self.q_err = Queue()
-        self.t_err = Thread(target=self.enqueue_std, args=(self.p.stderr, self.q_err))
+        self.t_err = Thread(target=self.enqueue_std,
+                            args=(self.p.stderr, self.q_err))
         self.t_err.daemon = True  # thread dies with the program
         self.t_err.start()
         self.q_out = Queue()
-        self.t_out = Thread(target=self.enqueue_std, args=(self.p.stdout, self.q_out))
+        self.t_out = Thread(target=self.enqueue_std,
+                            args=(self.p.stdout, self.q_out))
         self.t_out.daemon = True  # thread dies with the program
         self.t_out.start()
+        self.r()  # clear return buffer
         self.default_term = str(*self.a('print GPVAL_TERM'))
 
     def enqueue_std(self, out, queue):
@@ -84,26 +91,12 @@ class gp(object):
         >>> a('print pi')
         '''
         self.c(command)
+        sleep(0.005)  # wait 5ms for gnuplot
         return self.r(vtype, timeout)
-
-    def wb(self, bin_data):
-        ''' this is used to pipe binary formated data to gnuplot '''
-        self.p.stdin.buffer.write(bin_data)
-        self.p.stdin.buffer.flush()
-
-    def m_binary(self, data_in, v_format='d'):
-        ''' turn data in binary format'''
-        columns = len(data_in)
-        xy = list(zip(*data_in))
-        bin_st = bytearray()
-        for i in xy:
-            bin_st += pack(v_format*columns, *i)  # convert linewise into binary
-        return bin_st
 
     def m_str(self, data, delimiter=' '):
         ''' turn data into string format'''
-        columns = len(data)
-        xy = list(zip(*data))
+        xy = list(zip(*data))  # slow method
         ascii_st = ''
         for i in xy:
             for j in i:
@@ -122,23 +115,6 @@ class gp(object):
         self.c(str_data+'e')  # add end character to plot string
         return self.a()
 
-    def plot_b(self, data, com1='plot', com2='w lp', v1='d', v2='%double'):
-        ''' quick plot data in gnuplot using binary format
-            tell gnuplot to expect binary
-            convert data into binary
-            send data
-            Note this is currently limited to simple 2d graph
-            changable here:
-            com1 = 'plot'
-            com2 = 'w lp'
-        '''
-        d1 = len(data[0])
-        # self.c('plot "-" binary record='+str(d1)+' format="'+str(v2)+'" w lp')
-        self.c(com1 + ' "-" binary record='+str(d1)+' format="'+str(v2)+'" '+com2)
-        bin_data = self.m_binary(data, v_format=v1)
-        self.wb(bin_data)
-        return self.a()
-
     def s(self, data, filename='tmp.dat', delimiter=' '):
         '''
         saves numbers arrays and text into filename (default = 'tmp.dat)
@@ -150,29 +126,34 @@ class gp(object):
             f.write(filestr)
             f.close()  # write the rest and close
 
+    def make_empty_plot(self):
+        self.c('plot [][-1:1] 1/0 t""')
+
     def ps(self, filename='tmp.ps', width=14, height=9, fontsize=12):
         '''Script to make gnuplot print into a postscript file
         >>> ps(filename='myfigure.ps')  # overwrites/creates myfigure.ps
         '''
-        self.c('set term postscript size ' + str(width) + 'cm, ' + str(height) + 'cm color solid ' +
-               str(fontsize) + " font 'Calibri';")
-        self.c('set out "' + filename + '";')
-        self.c('replot;')
-        self.c('set term ' + self.default_term + '; replot')
+        self.c('set term postscript size '
+               + str(width) + 'cm, '
+               + str(height) + 'cm color solid '
+               + str(fontsize) + " font 'Calibri';")
+        self.c('set out "' + filename + '";replot;')
+        self.c('set term ' + self.default_term + ';replot')
         return self.r()
 
     def pdf(self, filename='tmp.pdf', width=8.8, height=6, fontscale=0.5):
         '''Script to make gnuplot print into a pdf file
         >>> pdf(filename='myfigure.pdf')  # overwrites/creates myfigure.pdf
         '''
-        self.c('set term pdfcairo fontscale ' + str(fontscale) + 'size ' + str(width) + 'cm, ' + str(height) + "cm;")
-        self.c('set out "' + filename + '";')
-        self.c('replot;')
+        self.c('set term pdfcairo fontscale '
+               + str(fontscale) + 'size '
+               + str(width) + 'cm, '
+               + str(height) + "cm;")
+        self.c('set out "' + filename + '";replot;')
         self.c('set term ' + self.default_term + '; replot')
-        return self.r() # clear buffer
+        return self.r()  # clear buffer
 
     def quit(self):
-        self.c('set term ' + self.default_term + ' reset')  # close all windows
         aa = self.a('exit')  # close gnuplot
         self.p.kill()  # kill pipe
         return aa
@@ -183,8 +164,6 @@ if __name__ == '__main__':
     x = [0, 1, 2]
     y = [5, -1, 5]
     z = [4, 5, 2]
-    f1 = gp()
-    # f1.plot_b([x,y])
-    dat_b = f1.m_binary([x,y])
-    dat_s = f1.m_str([x,y], delimiter='\t')
-
+    f1 = figure()
+    f1.plot([x, y])
+    dat_s = f1.m_str([x, y], delimiter='\t')
