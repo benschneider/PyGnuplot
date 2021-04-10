@@ -1,7 +1,7 @@
-from PyGnuplot import figure
+from PyGnuplot import gp
 
 
-f1 = figure()
+f1 = gp()
 e = 2.718281828459045
 
 

@@ -12,12 +12,12 @@ Special Thanks to ddip!
     thus allowing the use of the gnuplot fit function.
 
 Example:
-    from PyGnuplot import figure
+    from PyGnuplot import gp
     import numpy as np
     X = np.arange(10)
     Y = np.sin(X/(2*np.pi))
     Z = Y**2.0
-    fig1 = figure()
+    fig1 = gp()
     fig1.s([X,Y,Z])  # saves data into tmp.dat
     fig1.c('plot "tmp.dat" u 1:2 w lp)  # send 'plot instructions to gnuplot'
     fig1.c('replot "tmp.dat" u 1:3' w lp)
@@ -38,10 +38,10 @@ except ImportError:
 ON_POSIX = 'posix' in sys.builtin_module_names
 
 
-class figure(object):
+class gp(object):
     """PyGnuplot object figure
     example:
-        f1 = figure()
+        f1 = gp()
         pi = f1.a('print pi')
     """
     def __init__(self):
@@ -199,7 +199,7 @@ class figure(object):
 if __name__ == '__main__':
     # test functionality
     import numpy as np
-    f1 = figure()
+    f1 = gp()
     x = np.linspace(0, 20, 1001)
     yn = np.random.randn(1001)/10
     y = np.sin(x)
