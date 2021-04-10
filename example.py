@@ -1,12 +1,14 @@
-from PyGnuplot import gp
+from PyGnuplot import figure
 
-f1 = gp()
 
+f1 = figure()
 e = 2.718281828459045
+
 
 def sin(x):
     ''' returns sin for each x '''
     return (e**(i*1j)).imag
+
 
 x = list(range(1000))
 x = [i/20 for i in x]  # x = x/20
