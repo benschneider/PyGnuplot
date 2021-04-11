@@ -31,9 +31,9 @@ from threading import Thread
 from time import sleep
 
 try:
-    from queue import Queue, Empty
+    from queue import Queue, Empty  # Python 3.x
 except ImportError:
-    from Queue import Queue, Empty  # python 2.x
+    from Queue import Queue, Empty  # Python 2.x
 
 ON_POSIX = 'posix' in sys.builtin_module_names
 
