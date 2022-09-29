@@ -4,7 +4,7 @@
 .. image:: https://anaconda.org/benschneider/pygnuplot/badges/version.svg
     :target: https://anaconda.org/benschneider/pygnuplot
 
-.. image:: https://travis-ci.org/benschneider/PyGnuplot.svg?branch=master
+.. image:: https://travis-ci.org/benschneider/PyGnuplot.svg?branch=experimental
     :target: https://travis-ci.org/benschneider/PyGnuplot
 
 .. image:: https://img.shields.io/badge/License-MIT-yellow.svg
@@ -52,7 +52,7 @@ pipe a command to gnuplot as if in gnuplot command promt
 
 	c('plot sin(x)')
 
-**s(data, filename='tmp.dat')**
+**save(data, filename='tmp.dat')**
 
 save arrays into file (filename = 'tmp.dat') easily read by Gnuplot
 
@@ -65,14 +65,41 @@ save arrays into file (filename = 'tmp.dat') easily read by Gnuplot
 
 	c('plot "tmp.dat" u 1:2')
 
+**a(command='', vtype=str, timeout=0.05)**
+
+   asks gnuplot: it sends a command to gnuplot and returns its response
+   This is paricularly handy when using gnuplots fitting features
+   vtype can be used to change the return format
+   timeout is the time to wait for a response 
+
+.. code:: python
+
+      a('print pi')  # returns the value of pi
+
+.. code:: python
+
+      a('print pi; print pi')  # returns 2 times the value of pi
+
+**r(vtype=str, timeout=0.05)**
+
+   reads the gnuplot return buffer until its empty
+
+
 **plot(data, filename='tmp.dat')**
   
-Plot some data.
-Saves data into filename (default = 'tmp.dat') and then sends plot instructions to Gnuplot
+  Plot some data. 
+  Sends plot instructions and the data to Gnuplot
 
 .. code:: python
 
         plot([x,y])
+
+**plot_b(data, v1='d', v2='%double')**
+
+   Similar to plot:
+   Sends plot instructions and the data to Gnuplot
+   However it sends them in binary format,
+   which can be beneficial when the dealing with larger quanities of numbers
 
 **figure(number=None, term='x11')**
   
@@ -100,16 +127,47 @@ Create a pdf file (overwrites existing)
 	pdf('myfile.pdf')
 
 
+**quit()**
+
+   Closes windows,then  gnuplot, then the pipe
+
 Setup terminal
 ..............
 
-Default terminal is 'x11' unless defined otherwise i.e. for windows:
+   This script will use the same default terminal that gnuplot used
+   (it reads the GPVAL_TERM value when gnuplot starts up)
+   it can still be modified by the 'default_term' variable:
+
 
 .. code:: python
 
-    import PyGnuplot as gp
-    gp.default_term = 'wxt'
+    from PyGnuplot import gp
+    fig1 = gp()
+    fig1.default_term = 'wxt'
 
+
+New features:
+.............
+
+**fit2d(data, func='y(x)=a + b*x', via='a,b', limit=1e-9)**
+
+    Quickly Fit a simple 2-D data set and return the fitting results.
+    This uses the new ask function "a()"
+    Here we gather the fitting info from gnuplot
+
+.. code:: python
+
+    import numpy as np
+    f1 = gp()
+    x = np.linspace(0, 20, 1001)
+    yn = np.random.randn(1001)/10
+    y = np.sin(x)
+    data = [x, y+yn]
+    func = 'y(x) = a + b*cos(x + c)'  # define a fitting function here.
+    (a, b, c), report = f1.fit2d(data, func, via='a,b,c', limit=1e-9) # sending in the data the function used to fit and the variables that are to be found.
+    f1.save(data, "tmp.dat")
+    f1.a('plot "tmp.dat" w lp')
+    f1.a('replot y(x)')
 
 Examples:
 .........
@@ -118,15 +176,16 @@ Examples:
 
 .. code:: python
 
-    import PyGnuplot as gp
+    from PyGnuplot import gp
     import numpy as np
     X = np.arange(10)
     Y = np.sin(X/(2*np.pi))
     Z = Y**2.0
-    gp.s([X,Y,Z])
-    gp.c('plot "tmp.dat" u 1:2 w lp')
-    gp.c('replot "tmp.dat" u 1:3 w lp')
-    gp.p('myfigure.ps')
+    fig1 = gp()
+    fig1.save([X,Y,Z])
+    fig1.c('plot "tmp.dat" u 1:2 w lp)
+    fig1.c('replot "tmp.dat" u 1:3' w lp)
+    fig1.p('myfigure.ps')
 
 
 * 2 Example file

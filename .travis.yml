@@ -1,28 +1,28 @@
 language: python
 python:
-  - "2.6"
-  - "2.7"
-  - "3.2"
-  - "3.3"
-  - "3.4"
+  - "2.7"           # this works for Linux but is ignored on macOS or Windows
+  - "3.8"
+  # - "nightly"
   # PyPy versions
-  - "pypy"  # PyPy2 2.5.0
-  - "pypy3" # Pypy3 2.4.0
-  - "pypy-5.3.1"
+  - "pypy"   # currently Python 2.7.13, PyPy 7.1.1
+  - "pypy3"  # currently Python 3.6.1,  PyPy 7.1.1-beta0
+#services:
+  #- xvfb
 before_install:
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
+  #- "export DISPLAY=:99.0"
   - "sudo apt-get install gnuplot-x11"
 install:
-  - pip install .
-  - pip install numpy
-  - pip install nose coverage
-  # - pip install coveralls
+  - pip3 install --upgrade pip || pip install --upgrade pip # all three OSes agree about 'pip3'
+  - pip3 install . || pip install .
+  - pip3 install nose coverage || pip install nose coverage
+  # - env: PATH=/c/Python38:/c/Python38/Scripts:$PATH
   # - pip install pypiview
-# command to run tests
+  # - pip install coveralls
 script:
   - python example.py
   - python setup.py nosetests --cover-package pypiview  # --with-coverage
-
-    #after_sucess:
+  - echo 'if example.pdf was generated, test is sucessfull'
+  - ls example.pdf 
+  - rm example.pdf  # if file didn't exist, this will fail
+ #after_sucess:
     #coveralls
