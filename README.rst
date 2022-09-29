@@ -42,7 +42,7 @@ Upgrade:
         pip install --upgrade  PyGnuplot
 
 Basic Usage:
-......
+............
 .. code::
 
         from PyGnuplot import gp
