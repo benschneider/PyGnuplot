@@ -8,3 +8,6 @@ build/
 dist/
 tests/
 PyGnuplot.egg-info/
+Pipfile
+*.dat
+*.log

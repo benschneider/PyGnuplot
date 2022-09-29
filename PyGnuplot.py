@@ -69,7 +69,8 @@ class gp(object):
         out.close()
 
     def c(self, command):
-        ''' write a command doesnt check for response
+        ''' send a command to gnuplot.
+        this does not check for responses
         >>> w('plot sin(x)')  # only send a command to gnuplot'''
         self.p.stdin.write(command + '\n')  # \n 'send return in python 2.7'
         self.p.stdin.flush()  # send the command in python 3.4+
@@ -95,7 +96,9 @@ class gp(object):
         return self.r(vtype, timeout)
 
     def m_str(self, data, delimiter=' '):
-        ''' turn data into string format'''
+        ''' turn data into string format 
+        this string format can be used when sending data to gnuplot
+        usually via: plot "-" u 1:2 w lp'''
         xy = list(zip(*data))
         ascii_st = ''
         for i in xy:
@@ -152,7 +155,7 @@ class gp(object):
             ret.append(r)
         return ret
 
-    def s(self, data, filename='tmp.dat', delimiter=' '):
+    def save(self, data, filename='tmp.dat', delimiter=' '):
         '''
         saves numbers arrays and text into filename (default = 'tmp.dat)
         (assumes equal sizes and 2D data sets)
