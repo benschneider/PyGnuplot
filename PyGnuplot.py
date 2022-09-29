@@ -11,6 +11,8 @@ Special Thanks to ddip!
     a cleaner and better code and finnaly giving accesss to gnuplot returns
     thus allowing the use of the gnuplot fit function.
 
+Also thanks to all the others who commented gave inputs and suggestions.
+
 Example:
     from PyGnuplot import gp
     import numpy as np
