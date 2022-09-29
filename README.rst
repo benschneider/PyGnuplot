@@ -41,8 +41,20 @@ Upgrade:
 
         pip install --upgrade  PyGnuplot
 
-Functions:
-..........
+Basic Usage:
+......
+.. code::
+
+        from PyGnuplot import gp
+        figure1 = gp()  # Create a new figure handle
+        figure2 = gp(r"C:\Program Files\gnuplot\bin\gnuplot.exe")  # Can also specify which gnuplot to use
+        figure1.a("plot sin(x)")
+        figure2.a("plot cos(x)")
+        pi = figure.a("print pi")
+
+
+Functions available with each figure:
+.....................................
 
 **c(command)**
 
@@ -101,14 +113,6 @@ save arrays into file (filename = 'tmp.dat') easily read by Gnuplot
    However it sends them in binary format,
    which can be beneficial when the dealing with larger quanities of numbers
 
-**figure(number=None, term='x11')**
-  
-Create a new or update a figure
-
-.. code:: python
-        
-        figure(1)
-
 **p(filename='tmp.ps', width=14, height=9, fontsize=12, term='x11')**
 
 Create postscript file (overwrites existing)
@@ -149,11 +153,20 @@ Setup terminal
 New features:
 .............
 
+
 **fit2d(data, func='y(x)=a + b*x', via='a,b', limit=1e-9)**
 
     Quickly Fit a simple 2-D data set and return the fitting results.
     This uses the new ask function "a()"
     Here we gather the fitting info from gnuplot
+
+and:
+
+**fit(self, data, func='y(x)=a + b*x', via='a,b', limit=1e-9, filename='tmp.dat', wait=1)**
+
+    Allows for sligtly more complex fitting, 
+    filename: stores data first into a temporary file default: tmp.dat
+    wait: define a waiting time in sec for gnuplot to finish its fitting default: 1sec
 
 .. code:: python
 
