@@ -43,12 +43,15 @@ ON_POSIX = 'posix' in sys.builtin_module_names
 class gp(object):
     """PyGnuplot object figure
     example:
-        f1 = gp()
+        f1 = gp(r"C:\Program Files\gnuplot\bin\gnuplot.exe")
         pi = f1.a('print pi')
     """
-    def __init__(self):
+
+    def __init__(self, gnuplot_address='gnuplot'):
+        # also also initialize with gnuplot_address = r"C:\Program Files\gnuplot\bin\gnuplot.exe"
+        self.gnuplot_address=gnuplot_address
         ''' open pipe with gnuplot '''
-        self.p = Popen(['gnuplot'], stdin=PIPE, stderr=PIPE, stdout=PIPE,
+        self.p = Popen([gnuplot_address], stdin=PIPE, stderr=PIPE, stdout=PIPE,
                        bufsize=1, close_fds=ON_POSIX,
                        shell=False, universal_newlines=True)
         self.q_err = Queue()
@@ -237,3 +240,8 @@ if __name__ == '__main__':
     f1.a('plot "tmp.dat" w lp')
     f1.a('replot y(x)')
     dat_s = f1.m_str([x, y], delimiter='\t')
+    print()
+    print("fitting function is: " + func)
+    print("fit report:")
+    for line in report:
+        print(line)
