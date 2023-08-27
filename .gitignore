@@ -12,3 +12,4 @@ PyGnuplot.egg-info/
 Pipfile
 *.dat
 *.log
+.DS_Store
