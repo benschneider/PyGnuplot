@@ -20,8 +20,6 @@ Requires:
 .........
 Gnuplot (http://www.gnuplot.info)
 
-numpy 
-
 Installation:
 .............
 
@@ -36,26 +34,39 @@ Using conda
 .. code::
 
         conda install -c benschneider pygnuplot
+
 Upgrade:
 ........
 .. code::
 
         pip install --upgrade  PyGnuplot
 
-Functions:
-..........
+Basic Usage:
+............
+.. code::
+
+        from PyGnuplot import gp
+        figure1 = gp()  # Create a new figure handle
+        figure2 = gp(r"C:\Program Files\gnuplot\bin\gnuplot.exe")  # Can also specify which gnuplot to use
+        figure1.a("plot sin(x)")
+        figure2.a("plot cos(x)")
+        pi = figure.a("print pi")
+
+
+Functions available with each figure:
+.....................................
 
 **c(command)**
 
-  pipe a command to gnuplot as if in gnuplot command promt
+pipe a command to gnuplot as if in gnuplot command promt
 
 .. code:: python
 
 	c('plot sin(x)')
 
-**s(data, filename='tmp.dat')**
+**save(data, filename='tmp.dat')**
 
-  save arrays into file (filename = 'tmp.dat') easily read by Gnuplot
+save arrays into file (filename = 'tmp.dat') easily read by Gnuplot
 
 .. code:: python
 
@@ -102,17 +113,9 @@ Functions:
    However it sends them in binary format,
    which can be beneficial when the dealing with larger quanities of numbers
 
-**figure(number=None, term='x11')**
-  
-  Create a new or update a figure
-
-.. code:: python
-        
-        figure(1)
-
 **p(filename='tmp.ps', width=14, height=9, fontsize=12, term='x11')**
 
-  Create postscript file (overwrites existing)
+Create postscript file (overwrites existing)
 
 .. code:: python
 
@@ -121,7 +124,7 @@ Functions:
 
 **pdf(filename='tmp.pdf', width=14, height=9, fontsize=12, term='x11')**
 
-  Create a pdf file (overwrites existing)
+Create a pdf file (overwrites existing)
 
 .. code:: python
 
@@ -147,6 +150,46 @@ Setup terminal
     fig1.default_term = 'wxt'
 
 
+New features:
+.............
+
+
+**fit2d(data, func='y(x)=a + b*x', via='a,b', limit=1e-9)**
+
+    Quickly Fit a simple 2-D data set and return the fitting results.
+    This uses the new ask function "a()"
+    Here we gather the fitting info from gnuplot
+
+and:
+
+**fit(self, data, func='y(x)=a + b*x', via='a,b', limit=1e-9, filename='tmp.dat', wait=1)**
+
+    Allows for sligtly more complex fitting, 
+    filename: stores data first into a temporary file default: tmp.dat
+    wait: define a waiting time in sec for gnuplot to finish its fitting default: 1sec
+
+.. code:: python
+
+    import numpy as np
+    f1 = gp()
+    x = np.linspace(0, 20, 1001)
+    yn = np.random.randn(1001)/10
+    y = np.sin(x)
+    data = [x, y+yn]
+    func = 'y(x) = a + b*cos(x + c)'  # define a fitting function here.
+    (a, b, c), report = f1.fit2d(data, func, via='a,b,c', limit=1e-9) # sending in the data the function used to fit and the variables that are to be found.
+    f1.save(data, "tmp.dat")
+    f1.a('plot "tmp.dat" w lp')
+    f1.a('replot y(x)')
+
++-----------------------------------------------------------------------------------------------------------------+
+|.. figure:: https://user-images.githubusercontent.com/4573907/193154658-92513c20-ab3c-4b29-b487-d98b79d85942.png |
++-----------------------------------------------------------------------------------------------------------------+
+
++-----------------------------------------------------------------------------------------------------------------+
+|.. figure:: https://user-images.githubusercontent.com/4573907/193154419-133761a1-3e2f-4c00-87d2-2c47b7da62c5.png |
++-----------------------------------------------------------------------------------------------------------------+
+
 Examples:
 .........
 
@@ -160,7 +203,7 @@ Examples:
     Y = np.sin(X/(2*np.pi))
     Z = Y**2.0
     fig1 = gp()
-    fig1.s([X,Y,Z])
+    fig1.save([X,Y,Z])
     fig1.c('plot "tmp.dat" u 1:2 w lp)
     fig1.c('replot "tmp.dat" u 1:3' w lp)
     fig1.p('myfigure.ps')

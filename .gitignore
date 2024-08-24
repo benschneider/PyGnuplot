@@ -7,7 +7,9 @@ setup.cfg
 build/
 dist/
 tests/
+adons/
 PyGnuplot.egg-info/
 Pipfile
 *.dat
 *.log
+.DS_Store
